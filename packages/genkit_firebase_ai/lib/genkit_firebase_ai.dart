@@ -769,7 +769,10 @@ Part fromGeminiPart(fai.Part p) {
       },
     );
   }
-  return CustomPart(custom: pJson, metadata: metadata);
+  final custom = {...pJson}
+    ..remove('thought')
+    ..remove('thoughtSignature');
+  return CustomPart(custom: custom, metadata: metadata);
 }
 
 ModelResponseChunk? _fromGeminiLiveEvent(fai.LiveServerResponse event) {
