@@ -293,7 +293,7 @@ class _FirebaseGenAiPlugin extends GenkitPlugin {
                   .map(
                     (c) => {
                       'content': c.content.parts.length,
-                      'finishReason': c.finishReason?.name,
+                      'finishReason': c.finishReason?.toJson(),
                     },
                   )
                   .toList(),
@@ -323,7 +323,7 @@ class _FirebaseGenAiPlugin extends GenkitPlugin {
                         .content
                         .parts
                         .length, // content.toJson() might not exist or be simple
-                    'finishReason': c.finishReason?.name,
+                    'finishReason': c.finishReason?.toJson(),
                   },
                 )
                 .toList(),

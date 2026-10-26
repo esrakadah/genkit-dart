@@ -186,4 +186,26 @@ void main() {
       expect(response.custom, isNull);
     },
   );
+
+  for (final streaming in [false, true]) {
+    test(
+      'raw and custom use the same spelling (streaming: $streaming)',
+      () async {
+        final client = WireClient(
+          response: textResponse('partial', finishReason: 'MAX_TOKENS'),
+          streamChunks: [textResponse('partial', finishReason: 'MAX_TOKENS')],
+        );
+
+        final response = await wireModel(client)(
+          userRequest('hello'),
+          onChunk: streaming ? (_) {} : null,
+        );
+
+        expect(response.custom?['finishReason'], 'MAX_TOKENS');
+        expect(response.raw, {
+          'candidates': [containsPair('finishReason', 'MAX_TOKENS')],
+        });
+      },
+    );
+  }
 }
